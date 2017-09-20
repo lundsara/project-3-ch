@@ -19,11 +19,11 @@ class App extends Component {
     this.state = {
       // Insert what we want as our state
       username: '',
-      user: null
+      user: null,
+      message: ''
     }
     // insert code that needs to be bind in here.
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.handleInputOrganizerChange = this.handleInputOrganizerChange.bind(this);
@@ -58,10 +58,34 @@ class App extends Component {
       });
   }
 
-  handleReivewSubmit(e) {
+  handleReviewSubmit(e) {
     e.preventDefault();
     // add what data you want firebase to see and add
   }
+ handleInputOrganizerChange(event) {
+    this.setState({
+      inputOrganizerValue: event.target.value
+    })
+  }
+
+  handleInputReviewChange(event) {
+    this.setState({
+      inputReviewValue: event.target.value
+    })
+  }
+
+  handleInputNameChange(event) {
+    this.setState({
+      inputNameValue: event.target.value
+    })
+  }
+
+  handleInputDateChange(event) {
+    this.setState({
+      inputDateValue: event.target.value
+    })
+  }
+
 
   componentDidMount() {
     auth.onAuthStateChanged((user) => {
@@ -70,7 +94,12 @@ class App extends Component {
       }
     });
 
-
+    return fetch('/api/hello')
+      .then((responseJson) => {
+        this.setState({
+          message: responseJson.message,
+        });
+      })
   }
 
 render() {
@@ -83,6 +112,7 @@ render() {
         <Route exact path="/reviewlist" component={ReviewList} />
        <Redirect to="/" />
         </Switch>
+        <p>Message from our backend API: <b>{this.state.message}</b></p>
         </main>
       <Footer />
     </div>
