@@ -1,0 +1,29 @@
+{
+  "name": "project-3",
+  "version": "1.0.0",
+  "description": "Event Application that uses text analysis on reviews",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GreatIdeasinc/Project-3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GreatIdeasinc/Project-3/issues"
+  },
+  "homepage": "https://github.com/GreatIdeasinc/Project-3#readme",
+  "dependencies": {
+    "eslint": "^4.7.1",
+    "express": "^4.15.4"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.3.0"
+  }
+}
