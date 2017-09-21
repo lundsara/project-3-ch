@@ -95,6 +95,20 @@ logout() {
     const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
     reviewRef.remove();
   }
+
+  loginComponent = (props) => {
+    return (
+      <Login
+        {...props}
+        user={this.state.user}
+        login={this.login}
+        reviews={this.state.reviews}
+        logout={this.logout}
+        removeReview={this.removeReview}
+      />
+    );
+  }
+
   render() {
   return (
     <div className='app'>
@@ -104,7 +118,7 @@ logout() {
          <Switch>
           <Route exact path="/home" component={Home} />
           <Route exact path="/reviewlist" component={ReviewList} />
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/login" render={(props) => this.loginComponent(props) } />
          </Switch>
      </header>
 
