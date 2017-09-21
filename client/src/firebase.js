@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 
 const config = {
-    apiKey: "nothing",
+    apiKey: "AIzaSyBPMjiE40joBYoT0daQqZs9QjWkyW1b1cQ",
     authDomain: "greatideasinc-1e532.firebaseapp.com",
     databaseURL: "https://greatideasinc-1e532.firebaseio.com",
     projectId: "greatideasinc-1e532",
