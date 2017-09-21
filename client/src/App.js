@@ -94,7 +94,7 @@ class App extends Component {
     //   }
     // });
 
-      fetch('/api/hello')
+      fetch('/api/test')
       .then((response) => {
         return response.json()
       })
