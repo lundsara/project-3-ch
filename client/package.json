@@ -18,5 +18,5 @@
   "devDependencies": {
     "firebase": "^4.3.1"
   },
-  "proxy": "http://localhost:3003/"
+  "proxy": "http://localhost:3000/"
 }

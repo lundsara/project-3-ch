@@ -15,6 +15,24 @@ const watsonu = process.env.WATU;
 const watsonp = process.env.WATP;
 console.log('dotenv: ' + watsonp);
 
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19",
+    "method": "POST",
+    "headers": {
+      "authorization": "Basic ZmIzODBkMjgtYjQ0My00MGJiLTg1ZTYtY2FlYjgyNWM0ZmI5OjQ3dE5oR2xoalowVg==",
+      "cache-control": "no-cache",
+      "postman-token": "9d7c285d-0ad2-06bd-d307-e7118d02a20c"
+    },
+    "data": "{\n  \"text\": \"I am happy, very happy to see you again. So happy that I'm bleeding with happiness\"\n}"
+  }
+  
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+  });
+
+
 
 
 app.get('/api/hello', function(req,res) {
