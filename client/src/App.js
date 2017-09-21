@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase, { auth, provider } from './firebase';
 import ReviewSearch from './components/ReviewSearch';
-import Header from './components/partials/Header';
-import Footer from './components/partials/Footer';
-import Nav from './components/partials/Nav';
+import Header from './components/partials/header';
+import Footer from './components/partials/footer';
+import Nav from './components/partials/nav';
 import Home from './components/Home';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Redirect, Switch } from 'react-router-dom';
@@ -88,11 +88,11 @@ class App extends Component {
 
 
   componentDidMount() {
-    auth.onAuthStateChanged((user) => {
-      if(user) {
-        this.setState({ user });
-      }
-    });
+    // auth.onAuthStateChanged((user) => {
+    //   if(user) {
+    //     this.setState({ user });
+    //   }
+    // });
 
     return fetch('/api/hello')
       .then((responseJson) => {
