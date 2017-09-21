@@ -37,8 +37,8 @@ var IBMData = {
 
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
-        IBMData.data = body;
-        console.log(body)
+        IBMData.data = JSON.parse(body);
+        console.log(JSON.parse(body))
       
     }
 }
@@ -47,10 +47,16 @@ function callback(error, response, body) {
 
 request(options, callback);
 
-console.log(`This is IBMData ${IBMData.data}`)
+
 
 app.get('/api/test', function(req,res) {
-    res.json({score: IBMData.data});
+
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.json({score: JSON.parse(body)});
+        }
+    }
+    request(options, callback);
 })
 
 app.get('/api/hello', function(req,res) {

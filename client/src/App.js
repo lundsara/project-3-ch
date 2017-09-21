@@ -88,19 +88,14 @@ class App extends Component {
 
 
   componentDidMount() {
-    // auth.onAuthStateChanged((user) => {
-    //   if(user) {
-    //     this.setState({ user });
-    //   }
-    // });
-
       fetch('/api/test')
       .then((response) => {
         return response.json()
       })
           .then((res) => {
+            console.log(res)
           this.setState({
-            message: res.message,
+            message: res.score.document_tone.tone_categories["0"].tones["0"],
           })
         })
   }
@@ -115,7 +110,7 @@ render() {
         <Route exact path="/reviewlist" component={ReviewList} />
        <Redirect to="/" />
         </Switch>
-        <p>Message from our backend API: <b>{this.state.message}</b></p>
+        <p>Message from our backend API: <b>{this.state.message.score}</b></p>
         </main>
       <Footer />
     </div>
