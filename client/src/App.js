@@ -20,7 +20,7 @@ class App extends Component {
       // Insert what we want as our state
       username: '',
       user: null,
-      message: ''
+      message: '',
     }
     // insert code that needs to be bind in here.
     this.handleChange = this.handleChange.bind(this);
@@ -94,12 +94,15 @@ class App extends Component {
     //   }
     // });
 
-    return fetch('/api/hello')
-      .then((responseJson) => {
-        this.setState({
-          message: responseJson.message,
-        });
+      fetch('/api/test')
+      .then((response) => {
+        return response.json()
       })
+          .then((res) => {
+          this.setState({
+            message: res.message,
+          })
+        })
   }
 
 render() {
