@@ -27,6 +27,7 @@ class Login extends Component {
               <ul id='review'>
                 {/* map over all reviews and display on page */}
                    {this.props.reviews.map((review) => {
+                     console.log(`this is ${this.props.reviews}`)
                     return (
                       <li key={review.id}>
                         <h3>{review.title}</h3>

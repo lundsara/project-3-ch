@@ -22,8 +22,8 @@ class App extends Component {
       reviews: [],
       user: null,
       message: '',
-    }
-  // binding functions
+    };
+    // binding functions
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.login = this.login.bind(this);
@@ -31,72 +31,50 @@ class App extends Component {
   }
   handleChange(e) {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   }
 
-// adding authentication for firebase
-login() {
-  auth.signInWithPopup(provider)
-    .then((result) => {
-      const user = result.user;
-      this.setState({
-        user
+  // adding authentication for firebase
+  login() {
+    auth.signInWithPopup(provider)
+      .then((result) => {
+        const user = result.user;
+        this.setState({
+          user,
+        });
       });
-    });
-}
+  }
 
-logout() {
-  auth.signOut()
-    .then(() => {
-      this.setState({
-        user: null
+  logout() {
+    auth.signOut()
+      .then(() => {
+        this.setState({
+          user: null,
+        });
       });
-    });
-}
+  }
   handleSubmit(e) {
     e.preventDefault();
     const reviewsRef = firebase.database().ref('reviews');
     const review = {
       title: this.state.currentReview,
-      user: this.state.user.displayName || this.state.user.email
-    }
+      user: this.state.user.displayName || this.state.user.email,
+    };
     reviewsRef.push(review);
     this.setState({
       currentReview: '',
-      username: ''
+      username: '',
     });
   }
 
-  //checks every time the app loads
-  componentDidMount() {
-     auth.onAuthStateChanged((user) => {
-    if (user) {
-      this.setState({ user });
-    }
-  });
-    const reviewsRef = firebase.database().ref('reviews');
-    reviewsRef.on('value', (snapshot) => {
-      let reviews = snapshot.val();
-      let newState = [];
-      for (let review in reviews) {
-        newState.push({
-          id: review,
-          title: reviews[review].title,
-          user: reviews[review].user
-        });
-      }
-      this.setState({
-        reviews: newState
-      });
-    });
-  }
+
   removeReview(reviewId) {
     const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
     reviewRef.remove();
   }
 
-  loginComponent = (props) => {
+  loginComponent(props) {
     return (
       <Login
         {...props}
@@ -111,37 +89,57 @@ logout() {
     );
   }
 
-
   componentDidMount() {
-      fetch('/api/test')
-      .then((response) => {
-        return response.json()
-      })
-          .then((res) => {
-            console.log(res)
-          this.setState({
-            message: res.score.document_tone.tone_categories["0"].tones["0"],
-          })
-        })
+    // API REQUEST
+    fetch('/api/test')
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          message: res.score.document_tone.tone_categories['0'].tones['0'],
+        });
+      });
+    // User Auth
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      }
+    });
+    // Display reviews
+    const reviewsRef = firebase.database().ref('reviews');
+    reviewsRef.on('value', (snapshot) => {
+      const reviews = snapshot.val();
+      const newState = [];
+      for (const review in reviews) {
+        newState.push({
+          id: review,
+          title: reviews[review].title,
+          user: reviews[review].user,
+        });
+      }
+      this.setState({
+        reviews: newState,
+      });
+    });
   }
 
-render() {
- return (
-    <div className="quotes">
-      <Header />
-      <main>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/reviewlist" component={ReviewList} />
-       <Redirect to="/" />
-        </Switch>
-        <p>Message from our backend API: <b>{this.state.message.score}</b></p>
-        </main>
-      <Footer />
+  render() {
+    return (
+      <div className="app">
+        <div>
+          <Header />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/reviewlist" component={ReviewList} />
+            <Route exact path="/login" render={props => this.loginComponent(props)} />
+          </Switch>
+          <p>Message from our backend API: <b>{this.state.message.score}</b></p>
+        </div>
+        <Footer />
 
-    </div>
+      </div>
 
-   );
+    );
   }
 }
 export default App;
