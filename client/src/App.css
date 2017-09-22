@@ -136,9 +136,14 @@ list-style: none;
 }
 
 
+
 img {
   position: fixed;
   bottom: 20px;
+  right: 40px;
+  width: 50px;
+  height: 50px;
+}
 
 
 #box {
@@ -207,4 +212,12 @@ overflow-y: auto;
 z-index: 500;
 }
 
+
+.userReview {
+  padding: 10px;
+}
+
+#foot {
+  padding:200px;
+}
 
