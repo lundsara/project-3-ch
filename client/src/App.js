@@ -11,7 +11,7 @@ import Login from './components/Login';
 import Reviews from './components/Reviews';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import axios from 'axios';
+//import axios from 'axios';
 
 
 class App extends Component {
@@ -27,7 +27,7 @@ class App extends Component {
     // binding functions
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCall = this.handleCall.bind(this);
+    // this.handleCall = this.handleCall.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
   }
@@ -36,17 +36,17 @@ class App extends Component {
       [e.target.name]: e.target.value,
     });
   }
-  handleCall(event){
-    console.log(`handling call: ${this.state.currentReview}`);
-    event.preventDefault();
-    axios.post('http://localhost:3003/api/test',{
-      text: this.state.currentReview
-    })
-    .then((res) => {
-      console.log('the data that came back: ', res);
-    })
-    .catch(err => console.log(err));
-  }
+  // handleCall(event){
+  //   console.log(`handling call: ${this.state.currentReview}`);
+  //   event.preventDefault();
+  //   axios.post('http://localhost:3003/api/test',{
+  //     text: this.state.currentReview
+  //   })
+  //   .then((res) => {
+  //     console.log('the data that came back: ', res);
+  //   })
+  //   .catch(err => console.log(err));
+  // }
 
   // adding authentication for firebase
   login() {
@@ -66,7 +66,6 @@ class App extends Component {
           user: null,
         });
       });
-    });
 }
 
 
@@ -137,7 +136,7 @@ class App extends Component {
         removeReview={this.removeReview}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
-        handleCall={this.handleCall}
+        // handleCall={this.handleCall}
         updateReview={this.updateReview}
       />
     );
