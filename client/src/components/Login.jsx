@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import firebase, { auth, provider } from '../firebase';
-
+import axios from 'axios'
 
 class Login extends Component {
+  
+
+
   render() {
     return (
   <div className='login'>
@@ -17,10 +20,10 @@ class Login extends Component {
         </div>
       {this.props.user ?
          <div>
-            <div className='userinfo'>
+          
               {/* show user's photo */}
-              <img src={this.props.user.photoURL} />
-            </div>
+              <img  className='userinfo' src={this.props.user.photoURL} />
+          
          <div className='container'>
            <section className='display-review'>
             <div className="wrapper">
@@ -29,11 +32,9 @@ class Login extends Component {
                    {this.props.reviews.map((review) => {
                      console.log(`this is ${this.props.reviews}`)
                     return (
-                      <li key={review.id}>
-    
+                      <li className='userReview' key={review.id}>
                         <h3>{review.title}</h3>
                         <div>Written by: {review.user}
-
                           <button onClick={() => this.props.removeReview(review.id)}>Remove Review</button>
                       </div>
                      </li>
@@ -47,7 +48,7 @@ class Login extends Component {
                <form onSubmit={this.props.handleSubmit}>
                   <input type="text" name="username" placeholder="What's your name?" value={this.props.user.displayName || this.props.user.email} />
                   <input type="text" name="currentReview" placeholder="Tell us what you thought?" onChange={this.props.handleChange} value={this.props.currentReview} />
-                  <button>Add Review</button>
+                  <button onClick={this.props.handleCall}>Add Review</button>
               </form>
             </section>
           </div>

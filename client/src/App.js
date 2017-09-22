@@ -11,6 +11,7 @@ import Login from './components/Login';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import ReviewList from './components/ReviewList';
+import axios from 'axios';
 
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
     // binding functions
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCall = this.handleCall.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
   }
@@ -33,6 +35,17 @@ class App extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+  }
+  handleCall(event){
+    console.log(`handling call: ${this.state.currentReview}`);
+    event.preventDefault();
+    axios.post('http://localhost:3003/api/test',{
+      text: this.state.currentReview
+    })
+    .then((res) => {
+      console.log('the data that came back: ', res);
+    })
+    .catch(err => console.log(err));
   }
 
   // adding authentication for firebase
@@ -85,12 +98,14 @@ class App extends Component {
         removeReview={this.removeReview}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
+        handleCall={this.handleCall}
+      
       />
     );
   }
 
   componentDidMount() {
-    // API REQUEST
+    // INITIAL API REQUEST
     fetch('/api/test')
       .then((response) => response.json())
       .then((res) => {
@@ -133,7 +148,7 @@ class App extends Component {
             <Route exact path="/reviewlist" component={ReviewList} />
             <Route exact path="/login" render={props => this.loginComponent(props)} />
           </Switch>
-          <p>Message from our backend API: <b>{this.state.message.score}</b></p>
+        <p>This is our backend data <b>{this.state.message.score}</b></p>
         </div>
         <Footer />
 
