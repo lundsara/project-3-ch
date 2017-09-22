@@ -48,7 +48,8 @@ class Login extends Component {
                <form onSubmit={this.props.handleSubmit}>
                   <input type="text" name="username" placeholder="What's your name?" value={this.props.user.displayName || this.props.user.email} />
                   <input type="text" name="currentReview" placeholder="Tell us what you thought?" onChange={this.props.handleChange} value={this.props.currentReview} />
-                  <button onClick={this.props.handleCall}>Add Review</button>
+                  <button>Add Review</button>
+                  <button onClick={this.props.handleCall} >Feels</button>
               </form>
             </section>
           </div>
