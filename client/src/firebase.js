@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 
-<<<<<<< HEAD
+
 
 const config = {
     apiKey: "AIzaSyBPMjiE40joBYoT0daQqZs9QjWkyW1b1cQ",
@@ -11,17 +11,6 @@ const config = {
     messagingSenderId: "944510025836"
 };
   firebase.initializeApp(config);
-=======
-const config = {
-  apiKey: "AIzaSyBPMjiE40joBYoT0daQqZs9QjWkyW1b1cQ",
-  authDomain: "greatideasinc-1e532.firebaseapp.com",
-  databaseURL: "https://greatideasinc-1e532.firebaseio.com",
-  projectId: "greatideasinc-1e532",
-  storageBucket: "greatideasinc-1e532.appspot.com",
-  messagingSenderId: "944510025836"
-};
-firebase.initializeApp(config);
->>>>>>> dev
 
 
   export const provider = new firebase.auth.GoogleAuthProvider();

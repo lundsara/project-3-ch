@@ -3,7 +3,7 @@ import firebase, { auth, provider } from '../firebase';
 import axios from 'axios'
 
 class Login extends Component {
-  
+
 
 
   render() {
@@ -20,10 +20,10 @@ class Login extends Component {
         </div>
       {this.props.user ?
          <div>
-          
+
               {/* show user's photo */}
               <img  className='userinfo' src={this.props.user.photoURL} />
-          
+
          <div className='container'>
            <section className='display-review'>
             <div className="wrapper">
@@ -33,7 +33,6 @@ class Login extends Component {
                    {this.props.reviews.map((review) => {
                      console.log(`this is ${this.props.reviews}`)
                     return (
-<<<<<<< HEAD
                       <li id='box' key={review.id}>
                         <h3>{review.title}</h3>
                         <div>Posted by: {review.user}
@@ -41,12 +40,6 @@ class Login extends Component {
                          {/* {review.user === this.props.user.displayName || review.user === this.state.user.email ?*/}
                           <button onClick={() => this.props.removeReview(review.id)}>Remove Review</button>
                           <button onClick={() => this.props.updateReview(review.id)}>Update Review</button>
-=======
-                      <li className='userReview' key={review.id}>
-                        <h3>{review.title}</h3>
-                        <div>Written by: {review.user}
-                          <button onClick={() => this.props.removeReview(review.id)}>Remove Review</button>
->>>>>>> dev
                       </div>
                      </li>
                    )
