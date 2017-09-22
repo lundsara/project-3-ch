@@ -105,6 +105,8 @@ logout() {
         reviews={this.state.reviews}
         logout={this.logout}
         removeReview={this.removeReview}
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
       />
     );
   }
@@ -113,14 +115,14 @@ logout() {
   return (
     <div className='app'>
 
-     <header>
+     <div>
        <Header />
          <Switch>
           <Route exact path="/home" component={Home} />
           <Route exact path="/reviewlist" component={ReviewList} />
           <Route exact path="/login" render={(props) => this.loginComponent(props) } />
          </Switch>
-     </header>
+     </div>
 
     </div>
 

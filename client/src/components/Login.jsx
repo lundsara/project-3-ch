@@ -24,23 +24,23 @@ class Login extends Component {
          <div className='container'>
            <section className='display-review'>
             <div className="wrapper">
-              <ul>
+              <ul id='review'>
                 {/* map over all reviews and display on page */}
                    {this.props.reviews.map((review) => {
                     return (
                       <li key={review.id}>
                         <h3>{review.title}</h3>
-                        <p>Written by: {review.user}
+                        <div>Written by: {review.user}
                           {review.user === this.props.user.displayName || review.user === this.state.user.email ?
                           <button onClick={() => this.props.removeReview(review.id)}>Remove Review</button> : null}
-                      </p>
+                      </div>
                      </li>
                    )
                  })}
               </ul>
             </div>
           </section>
-            {/* form to add new review */}
+          {/* form to add new review */}
             <section className='add-review'>
                <form onSubmit={this.props.handleSubmit}>
                   <input type="text" name="username" placeholder="What's your name?" value={this.props.user.displayName || this.props.user.email} />
