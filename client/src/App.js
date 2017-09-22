@@ -8,10 +8,11 @@ import Footer from './components/partials/footer';
 import Nav from './components/partials/nav';
 import Home from './components/Home';
 import Login from './components/Login';
+import Reviews from './components/Reviews';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import ReviewList from './components/ReviewList';
 import axios from 'axios';
+
 
 
 class App extends Component {
@@ -66,13 +67,15 @@ class App extends Component {
           user: null,
         });
       });
-  }
-  handleSubmit(e) {
-    e.preventDefault();
-    const reviewsRef = firebase.database().ref('reviews');
-    const review = {
-      title: this.state.currentReview,
-      user: this.state.user.displayName || this.state.user.email,
+    });
+}
+
+handleSubmit(e) {
+  e.preventDefault();
+  const reviewsRef = firebase.database().ref('reviews');
+  const review = {
+    title: this.state.currentReview,
+    user: this.state.user.displayName || this.state.user.email
     };
     reviewsRef.push(review);
     this.setState({
@@ -81,10 +84,13 @@ class App extends Component {
     });
   }
 
-
   removeReview(reviewId) {
     const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
     reviewRef.remove();
+  }
+   updateReview(reviewId) {
+    const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
+    reviewRef.update();
   }
 
   loginComponent(props) {
@@ -98,13 +104,36 @@ class App extends Component {
         removeReview={this.removeReview}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
+        updateReview={this.updateReview}
         handleCall={this.handleCall}
-      
       />
     );
   }
-
-  componentDidMount() {
+    reviewsComponent = (props) => {
+    return (
+      <Reviews
+        {...props}
+        user={this.state.user}
+        reviews={this.state.reviews}
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+      />
+    );
+  }
+   addComponent = (props) => {
+    return (
+      <Reviews
+        {...props}
+        user={this.state.user}
+        reviews={this.state.reviews}
+        removeReview={this.removeReview}
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+      />
+    );
+  }
+   
+     componentDidMount() {
     // INITIAL API REQUEST
     fetch('/api/test')
       .then((response) => response.json())
@@ -137,24 +166,27 @@ class App extends Component {
       });
     });
   }
+ render() {
+  return (
+    <div className='app'>
 
-  render() {
-    return (
-      <div className="app">
-        <div>
-          <Header />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/reviewlist" component={ReviewList} />
-            <Route exact path="/login" render={props => this.loginComponent(props)} />
-          </Switch>
-        <p>This is our backend data <b>{this.state.message.score}</b></p>
-        </div>
+
+     <div>
+       <Header />
+         <Switch>
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/reviews" render={(props) => this.reviewsComponent(props) } />
+          <Route exact path="/login" render={(props) => this.loginComponent(props) } />
+          <Route exact path="/add" render={(props) => this.addComponent(props) } />
+         </Switch>
+<p>This is our backend data <b>{this.state.message.score}</b></p>
         <Footer />
-
-      </div>
-
+     </div>
+    </div>
+       
+      
+      />
     );
   }
-}
+
 export default App;
