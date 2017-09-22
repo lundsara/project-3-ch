@@ -6,6 +6,7 @@ class Footer extends Component {
       <footer>
       <p id='logo'>GREATIDEASINC.</p>
       </footer>
+
     );
   };
 }
