@@ -30,10 +30,11 @@ class Login extends Component {
                      console.log(`this is ${this.props.reviews}`)
                     return (
                       <li key={review.id}>
+    
                         <h3>{review.title}</h3>
                         <div>Written by: {review.user}
-                          {review.user === this.props.user.displayName || review.user === this.state.user.email ?
-                          <button onClick={() => this.props.removeReview(review.id)}>Remove Review</button> : null}
+
+                          <button onClick={() => this.props.removeReview(review.id)}>Remove Review</button>
                       </div>
                      </li>
                    )
