@@ -44,26 +44,23 @@ app.get('/api/test', function(req,res) {
     request(options, callback);
 })
 
-
-
-
 app.post('/api/test', function(req,res) {
     console.log(`this is the post inside server${req.body.text}`)
     text = req.body.text
-    app.get('/api/test', function(req,res) {
+    console.log(`this is the text inside post ${text}`)
 
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            res.json({score: JSON.parse(body)});
-            console.log(JSON.parse(body))
-        }
-    }
-    request(options, callback);
+
+
+//     app.get('/api/test', function(req,res) {
+//     function callback(error, response, body) {
+//         if (!error && response.statusCode == 200) {
+//             res.json({score: JSON.parse(body)});
+//             console.log(JSON.parse(body))
+//         }
+//     }
+//     request(options, callback);
+// })
 })
-
-})
-
-
 app.get('*', function(req, res) {
     res.status(404).send({message: 'Oops! Not found'});
 });
