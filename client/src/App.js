@@ -111,20 +111,6 @@ logout() {
     );
   }
 
-  render() {
-  return (
-    <div className='app'>
-
-
-     <div>
-       <Header />
-         <Switch>
-          <Route exact path="/home" component={Home} />
-          <Route exact path="/reviewlist" component={ReviewList} />
-          <Route exact path="/login" render={(props) => this.loginComponent(props) } />
-         </Switch>
-     </div>
-
 
   componentDidMount() {
       fetch('/api/test')
