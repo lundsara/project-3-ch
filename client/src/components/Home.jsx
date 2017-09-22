@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class Home extends Component {
   render() {
     return (
-      <p>Welcome to Event Feels! The only place in the universe to find how your event made others feel using sentiment analysis!</p>
+      <div id='home'>
+      <p>Welcome to Event Feels! <br /> The only place in the universe to find how your event <br/>made others feel using sentiment analysis!</p>
+      <p id='enter'><Link to="/login">Enter</Link></p>
+    </div>
     );
   };
 }

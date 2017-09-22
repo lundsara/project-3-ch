@@ -8,9 +8,10 @@ import Footer from './components/partials/footer';
 import Nav from './components/partials/nav';
 import Home from './components/Home';
 import Login from './components/Login';
+import Reviews from './components/Reviews';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import ReviewList from './components/ReviewList';
+
 
 
 class App extends Component {
@@ -54,12 +55,13 @@ logout() {
       });
     });
 }
-  handleSubmit(e) {
-    e.preventDefault();
-    const reviewsRef = firebase.database().ref('reviews');
-    const review = {
-      title: this.state.currentReview,
-      user: this.state.user.displayName || this.state.user.email
+
+handleSubmit(e) {
+  e.preventDefault();
+  const reviewsRef = firebase.database().ref('reviews');
+  const review = {
+    title: this.state.currentReview,
+    user: this.state.user.displayName || this.state.user.email
     }
     reviewsRef.push(review);
     this.setState({
@@ -68,32 +70,47 @@ logout() {
     });
   }
 
-  //checks every time the app loads
+
   componentDidMount() {
-     auth.onAuthStateChanged((user) => {
+      fetch('/api/test')
+      .then((response) => {
+        return response.json()
+      })
+        .then((res) => {
+          console.log(res)
+          this.setState({
+            message: res.score.document_tone.tone_categories["0"].tones["0"],
+          })
+        })
+      // user auth
+    auth.onAuthStateChanged((user) => {
     if (user) {
       this.setState({ user });
     }
   });
-    const reviewsRef = firebase.database().ref('reviews');
-    reviewsRef.on('value', (snapshot) => {
-      let reviews = snapshot.val();
-      let newState = [];
-      for (let review in reviews) {
-        newState.push({
-          id: review,
-          title: reviews[review].title,
-          user: reviews[review].user
-        });
-      }
-      this.setState({
-        reviews: newState
-      });
+   const reviewsRef = firebase.database().ref('reviews');
+   reviewsRef.on('value', (snapshot) => {
+     let reviews = snapshot.val();
+     let newState = [];
+     for (let review in reviews) {
+       newState.push({
+         id: review,
+        title: reviews[review].title,
+         user: reviews[review].user
+       });
+     }
+     this.setState({
+       reviews: newState
     });
-  }
+  });
+}
   removeReview(reviewId) {
     const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
     reviewRef.remove();
+  }
+   updateReview(reviewId) {
+    const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
+    reviewRef.update();
   }
 
   loginComponent = (props) => {
@@ -107,11 +124,34 @@ logout() {
         removeReview={this.removeReview}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
+        updateReview={this.updateReview}
       />
     );
   }
-
-  render() {
+    reviewsComponent = (props) => {
+    return (
+      <Reviews
+        {...props}
+        user={this.state.user}
+        reviews={this.state.reviews}
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+      />
+    );
+  }
+   addComponent = (props) => {
+    return (
+      <Reviews
+        {...props}
+        user={this.state.user}
+        reviews={this.state.reviews}
+        removeReview={this.removeReview}
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+      />
+    );
+  }
+ render() {
   return (
     <div className='app'>
 
@@ -120,39 +160,12 @@ logout() {
        <Header />
          <Switch>
           <Route exact path="/home" component={Home} />
-          <Route exact path="/reviewlist" component={ReviewList} />
+          <Route exact path="/reviews" render={(props) => this.reviewsComponent(props) } />
           <Route exact path="/login" render={(props) => this.loginComponent(props) } />
+          <Route exact path="/add" render={(props) => this.addComponent(props) } />
          </Switch>
+        <Footer />
      </div>
-
-
-  componentDidMount() {
-      fetch('/api/test')
-      .then((response) => {
-        return response.json()
-      })
-          .then((res) => {
-            console.log(res)
-          this.setState({
-            message: res.score.document_tone.tone_categories["0"].tones["0"],
-          })
-        })
-  }
-
-render() {
- return (
-    <div className="quotes">
-      <Header />
-      <main>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/reviewlist" component={ReviewList} />
-       <Redirect to="/" />
-        </Switch>
-        <p>Message from our backend API: <b>{this.state.message.score}</b></p>
-        </main>
-      <Footer />
-
     </div>
 
    );
