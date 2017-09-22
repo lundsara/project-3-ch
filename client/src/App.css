@@ -1,6 +1,13 @@
+.app {
+  text-align: center;
+}
+.login {
+  text-align: center;
+}
 .App {
   text-align: center;
 }
+
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -14,6 +21,34 @@
   color: white;
 }
 
+ul {
+
+  list-style: none;
+  text-decoration: none;
+  display: flex;
+  position: absolute;
+
+}
+a{
+  text-decoration: none;
+}
+
+p{
+  font-size: 40px;
+}
+.result{
+  font-size: 20px;
+}
+input {
+
+  width: 1000px;
+  height: 100px;
+  background-color: white;
+  border-radius: 0px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
 .App-intro {
   font-size: large;
 }
@@ -21,4 +56,55 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+header {
+
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+  height: 100%;
+  height: 100px;
+  margin: auto;
+  padding: 2% 3%;
+  background-color: white;
+  box-shadow: 0 0 15px rgba(21,30,53,.15);
+  background-position: right top;
+
+}
+
+a {
+  align-items: right;
+  text-align: center;
+  background-color: grey;
+  padding: 10px 30px;
+  font-size: 15px;
+  padding: 12px;
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);
+  border-radius: 5px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  width: 60px;
+  position: relative;
+  color: black;
+  margin-top: -35px;
+  margin-right: 10px;
+
+}
+
+
+#review {
+  border: solid 2px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 400px;
+}
+
+.userinfo {
+  position: fixed;
+  top: 20px;
+  right: 40px;
+  width: 50px;
+  height: 50px;
 }

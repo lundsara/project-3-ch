@@ -7,31 +7,27 @@ import Header from './components/partials/header';
 import Footer from './components/partials/footer';
 import Nav from './components/partials/nav';
 import Home from './components/Home';
+import Login from './components/Login';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import ReviewList from './components/ReviewList';
 
-// delete this comment, typing something random so i can commit/pushh
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      // Insert what we want as our state
+      currentReview: '',
       username: '',
+      reviews: [],
       user: null,
       message: '',
     }
-    // insert code that needs to be bind in here.
+  // binding functions
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-    this.handleInputOrganizerChange = this.handleInputOrganizerChange.bind(this);
-    this.handleInputReviewChange = this.handleInputReviewChange.bind(this);
-    this.handleInputDateChange = this.handleInputDateChange.bind(this);
-    this.handleInputNameChange = this.handleInputNameChange.bind(this);
-    this.handleReviewSubmit = this.handleReviewSubmit.bind(this);
-
   }
   handleChange(e) {
     this.setState({
@@ -39,52 +35,95 @@ class App extends Component {
     });
   }
 
-  login() {
-    auth.signInWithPopup(provider)
-      .then((result) => {
-        const user = result.user;
-        this.setState({
-          user
-        });
+// adding authentication for firebase
+login() {
+  auth.signInWithPopup(provider)
+    .then((result) => {
+      const user = result.user;
+      this.setState({
+        user
       });
-  }
+    });
+}
 
-  logout() {
-    auth.signOut()
-      .then(() => {
-        this.setState({
-          user: null
-        });
+logout() {
+  auth.signOut()
+    .then(() => {
+      this.setState({
+        user: null
       });
-  }
-
-  handleReviewSubmit(e) {
+    });
+}
+  handleSubmit(e) {
     e.preventDefault();
-    // add what data you want firebase to see and add
-  }
- handleInputOrganizerChange(event) {
+    const reviewsRef = firebase.database().ref('reviews');
+    const review = {
+      title: this.state.currentReview,
+      user: this.state.user.displayName || this.state.user.email
+    }
+    reviewsRef.push(review);
     this.setState({
-      inputOrganizerValue: event.target.value
-    })
+      currentReview: '',
+      username: ''
+    });
   }
 
-  handleInputReviewChange(event) {
-    this.setState({
-      inputReviewValue: event.target.value
-    })
+  //checks every time the app loads
+  componentDidMount() {
+     auth.onAuthStateChanged((user) => {
+    if (user) {
+      this.setState({ user });
+    }
+  });
+    const reviewsRef = firebase.database().ref('reviews');
+    reviewsRef.on('value', (snapshot) => {
+      let reviews = snapshot.val();
+      let newState = [];
+      for (let review in reviews) {
+        newState.push({
+          id: review,
+          title: reviews[review].title,
+          user: reviews[review].user
+        });
+      }
+      this.setState({
+        reviews: newState
+      });
+    });
+  }
+  removeReview(reviewId) {
+    const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
+    reviewRef.remove();
   }
 
-  handleInputNameChange(event) {
-    this.setState({
-      inputNameValue: event.target.value
-    })
+  loginComponent = (props) => {
+    return (
+      <Login
+        {...props}
+        user={this.state.user}
+        login={this.login}
+        reviews={this.state.reviews}
+        logout={this.logout}
+        removeReview={this.removeReview}
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+      />
+    );
   }
 
-  handleInputDateChange(event) {
-    this.setState({
-      inputDateValue: event.target.value
-    })
-  }
+  render() {
+  return (
+    <div className='app'>
+
+
+     <div>
+       <Header />
+         <Switch>
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/reviewlist" component={ReviewList} />
+          <Route exact path="/login" render={(props) => this.loginComponent(props) } />
+         </Switch>
+     </div>
 
 
   componentDidMount() {
@@ -113,11 +152,10 @@ render() {
         <p>Message from our backend API: <b>{this.state.message.score}</b></p>
         </main>
       <Footer />
+
     </div>
-    );
+
+   );
   }
 }
-
-
 export default App;
-

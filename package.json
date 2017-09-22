@@ -25,8 +25,9 @@
     "cors": "^2.8.4",
     "eslint": "^4.7.1",
     "express": "^4.15.4",
-    "https": "^1.0.0",
+    "firebase": "^4.3.1",
     "morgan": "^1.8.2",
+    "https": "^1.0.0",
     "path": "^0.12.7",
     "request": "^2.82.0",
     "request-promise": "^4.2.1"
