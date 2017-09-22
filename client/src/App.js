@@ -21,7 +21,7 @@ class App extends Component {
       username: '',
       reviews: [],
       user: null,
-      message: ''
+      message: '',
     }
   // binding functions
     this.handleChange = this.handleChange.bind(this);
@@ -115,6 +115,7 @@ logout() {
   return (
     <div className='app'>
 
+
      <div>
        <Header />
          <Switch>
@@ -123,6 +124,34 @@ logout() {
           <Route exact path="/login" render={(props) => this.loginComponent(props) } />
          </Switch>
      </div>
+
+
+  componentDidMount() {
+      fetch('/api/test')
+      .then((response) => {
+        return response.json()
+      })
+          .then((res) => {
+            console.log(res)
+          this.setState({
+            message: res.score.document_tone.tone_categories["0"].tones["0"],
+          })
+        })
+  }
+
+render() {
+ return (
+    <div className="quotes">
+      <Header />
+      <main>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/reviewlist" component={ReviewList} />
+       <Redirect to="/" />
+        </Switch>
+        <p>Message from our backend API: <b>{this.state.message.score}</b></p>
+        </main>
+      <Footer />
 
     </div>
 

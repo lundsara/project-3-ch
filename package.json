@@ -20,14 +20,22 @@
   },
   "homepage": "https://github.com/GreatIdeasinc/Project-3#readme",
   "dependencies": {
+    "ajax-request": "^1.2.3",
     "body-parser": "^1.18.1",
+    "cors": "^2.8.4",
     "eslint": "^4.7.1",
     "express": "^4.15.4",
-
-    "firebase": "^4.3.1"
-
+    "firebase": "^4.3.1",
     "morgan": "^1.8.2"
    },
+
+    "https": "^1.0.0",
+    "morgan": "^1.8.2",
+    "path": "^0.12.7",
+    "request": "^2.82.0",
+    "request-promise": "^4.2.1"
+  },
+
   "devDependencies": {
     "dotenv": "^4.0.0",
     "eslint-config-airbnb": "^15.1.0",
