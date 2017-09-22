@@ -23,7 +23,7 @@ console.log('dotenv: ' + watsonp);
 
 app.use(express.static(`${__dirname}/client/build`));
 
-var text= 'I am so happy that things work so well why is this happen in this way, Iam so hungry'
+var text;
 
 var options = {
     url: `https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&tones=emotion&text=${text}`,
@@ -33,50 +33,45 @@ var options = {
     }
 };
 
-var IBMData = {
-    data: 'Not Hello',
-}
-
-function callback(error, response, body) {
-    if (!error && response.statusCode == 200) {
-        IBMData.data = JSON.parse(body);
-        console.log(JSON.parse(body))
-      
-    }
-}
-
-
-
-request(options, callback);
-
-
-
 app.get('/api/test', function(req,res) {
 
     function callback(error, response, body) {
         if (!error && response.statusCode == 200) {
             res.json({score: JSON.parse(body)});
+            console.log(JSON.parse(body))
         }
     }
     request(options, callback);
 })
 
-app.get('/api/hello', function(req,res) {
-    res.json({message:'Hello There'});
+app.post('/api/test', function(req,res) {
+    console.log(`this is the post inside server${req.body.text}`)
+    text = req.body.text
+    console.log(`this is the text inside post ${text}`)
+
+
+
+//     app.get('/api/test', function(req,res) {
+//     function callback(error, response, body) {
+//         if (!error && response.statusCode == 200) {
+//             res.json({score: JSON.parse(body)});
+//             console.log(JSON.parse(body))
+//         }
+//     }
+//     request(options, callback);
+// })
 })
-
-
 app.get('*', function(req, res) {
     res.status(404).send({message: 'Oops! Not found'});
 });
 
 
-var request = require('request');
-app.get('/', function(req, res) {
-    request('https://www.eventbriteapi.com/v3/events/?token=${EB}', function(error, response, body) {
-        res.json(body)
-    });
-});
+// var request = require('request');
+// app.get('/', function(req, res) {
+//     request('https://www.eventbriteapi.com/v3/events/?token=${EB}', function(error, response, body) {
+//         res.json(body)
+//     });
+// });
 
 // Setting up port & listen
 

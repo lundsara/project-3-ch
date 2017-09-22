@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import firebase, { auth, provider } from '../firebase';
-
+import axios from 'axios'
 
 class Login extends Component {
+  
+
+
   render() {
     return (
   <div className='login'>
@@ -17,10 +20,10 @@ class Login extends Component {
         </div>
       {this.props.user ?
          <div>
-            <div className='userinfo'>
+          
               {/* show user's photo */}
-              <img src={this.props.user.photoURL} />
-            </div>
+              <img  className='userinfo' src={this.props.user.photoURL} />
+          
          <div className='container'>
            <section className='display-review'>
             <div className="wrapper">
@@ -28,7 +31,9 @@ class Login extends Component {
               <ul id="review">
                 {/* map over all reviews and display on page */}
                    {this.props.reviews.map((review) => {
+                     console.log(`this is ${this.props.reviews}`)
                     return (
+<<<<<<< HEAD
                       <li id='box' key={review.id}>
                         <h3>{review.title}</h3>
                         <div>Posted by: {review.user}
@@ -36,6 +41,12 @@ class Login extends Component {
                          {/* {review.user === this.props.user.displayName || review.user === this.state.user.email ?*/}
                           <button onClick={() => this.props.removeReview(review.id)}>Remove Review</button>
                           <button onClick={() => this.props.updateReview(review.id)}>Update Review</button>
+=======
+                      <li className='userReview' key={review.id}>
+                        <h3>{review.title}</h3>
+                        <div>Written by: {review.user}
+                          <button onClick={() => this.props.removeReview(review.id)}>Remove Review</button>
+>>>>>>> dev
                       </div>
                      </li>
                    )
@@ -50,6 +61,7 @@ class Login extends Component {
                   <input type="text" name="currentReview" placeholder="Tell us what you thought?" onChange={this.props.handleChange} value={this.props.currentReview} />
                   <br/>
                   <button>Add Review</button>
+                  <button onClick={this.props.handleCall} >Feels</button>
               </form>
             </section>
           </div>

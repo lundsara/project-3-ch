@@ -11,7 +11,12 @@ import Login from './components/Login';
 import Reviews from './components/Reviews';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Redirect, Switch } from 'react-router-dom';
+<<<<<<< HEAD
 
+=======
+import ReviewList from './components/ReviewList';
+import axios from 'axios';
+>>>>>>> dev
 
 
 class App extends Component {
@@ -23,36 +28,50 @@ class App extends Component {
       reviews: [],
       user: null,
       message: '',
-    }
-  // binding functions
+    };
+    // binding functions
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCall = this.handleCall.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
   }
   handleChange(e) {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   }
+  handleCall(event){
+    console.log(`handling call: ${this.state.currentReview}`);
+    event.preventDefault();
+    axios.post('http://localhost:3003/api/test',{
+      text: this.state.currentReview
+    })
+    .then((res) => {
+      console.log('the data that came back: ', res);
+    })
+    .catch(err => console.log(err));
+  }
 
-// adding authentication for firebase
-login() {
-  auth.signInWithPopup(provider)
-    .then((result) => {
-      const user = result.user;
-      this.setState({
-        user
+  // adding authentication for firebase
+  login() {
+    auth.signInWithPopup(provider)
+      .then((result) => {
+        const user = result.user;
+        this.setState({
+          user,
+        });
       });
-    });
-}
+  }
 
-logout() {
-  auth.signOut()
-    .then(() => {
-      this.setState({
-        user: null
+  logout() {
+    auth.signOut()
+      .then(() => {
+        this.setState({
+          user: null,
+        });
       });
+<<<<<<< HEAD
     });
 }
 
@@ -63,14 +82,25 @@ handleSubmit(e) {
     title: this.state.currentReview,
     user: this.state.user.displayName || this.state.user.email
     }
+=======
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    const reviewsRef = firebase.database().ref('reviews');
+    const review = {
+      title: this.state.currentReview,
+      user: this.state.user.displayName || this.state.user.email,
+    };
+>>>>>>> dev
     reviewsRef.push(review);
     this.setState({
       currentReview: '',
-      username: ''
+      username: '',
     });
   }
 
 
+<<<<<<< HEAD
   componentDidMount() {
       fetch('/api/test')
       .then((response) => {
@@ -104,6 +134,8 @@ handleSubmit(e) {
     });
   });
 }
+=======
+>>>>>>> dev
   removeReview(reviewId) {
     const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
     reviewRef.remove();
@@ -113,7 +145,7 @@ handleSubmit(e) {
     reviewRef.update();
   }
 
-  loginComponent = (props) => {
+  loginComponent(props) {
     return (
       <Login
         {...props}
@@ -124,6 +156,7 @@ handleSubmit(e) {
         removeReview={this.removeReview}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
+<<<<<<< HEAD
         updateReview={this.updateReview}
       />
     );
@@ -167,8 +200,65 @@ handleSubmit(e) {
         <Footer />
      </div>
     </div>
+=======
+        handleCall={this.handleCall}
+      
+      />
+    );
+  }
 
-   );
+  componentDidMount() {
+    // INITIAL API REQUEST
+    fetch('/api/test')
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          message: res.score.document_tone.tone_categories['0'].tones['0'],
+        });
+      });
+    // User Auth
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      }
+    });
+    // Display reviews
+    const reviewsRef = firebase.database().ref('reviews');
+    reviewsRef.on('value', (snapshot) => {
+      const reviews = snapshot.val();
+      const newState = [];
+      for (const review in reviews) {
+        newState.push({
+          id: review,
+          title: reviews[review].title,
+          user: reviews[review].user,
+        });
+      }
+      this.setState({
+        reviews: newState,
+      });
+    });
+  }
+
+  render() {
+    return (
+      <div className="app">
+        <div>
+          <Header />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/reviewlist" component={ReviewList} />
+            <Route exact path="/login" render={props => this.loginComponent(props)} />
+          </Switch>
+        <p>This is our backend data <b>{this.state.message.score}</b></p>
+        </div>
+        <Footer />
+
+      </div>
+>>>>>>> dev
+
+    );
   }
 }
 export default App;
