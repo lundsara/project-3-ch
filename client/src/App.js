@@ -23,7 +23,9 @@ class App extends Component {
       reviews: [],
       user: null,
       message: '',
-      parsedText: [],
+      parsedEmotion: '',
+      parsedScore: null,
+      parsedSentiment: [],
     };
     // binding functions
     this.handleChange = this.handleChange.bind(this);
@@ -45,7 +47,7 @@ class App extends Component {
   //   })
   //   .then((res) => {
   //     this.setState({
-  //       parsedText: res.data.score.document_tone.tone_categories["0"].tones,
+  //       parsedEmotion: res.data.score.document_tone.tone_categories["0"].tones,
   //     })
   //     console.log('the data that came back: ', res);
   //   })
@@ -72,6 +74,10 @@ class App extends Component {
       });
 }
 
+percent(num) {
+  return Math.round(num * 100);
+}
+
 
   handleSubmit(e) {
     e.preventDefault();
@@ -82,9 +88,19 @@ class App extends Component {
       text: this.state.currentReview
     })
     .then((res) => {
+      // console.log(`this is the emotion name ${res.data.score.document_tone.tone_categories["0"].tones["3"].tone_name}`)
+      // console.log(`this is the emotion score ${res.data.score.document_tone.tone_categories["0"].tones["3"].score}`)
       console.log(res.data.score.document_tone.tone_categories["0"].tones)
+      // console.log(this.percent(res.data.score.document_tone.tone_categories["0"].tones["3"].score))
+
+      let emotionScore = this.percent(res.data.score.document_tone.tone_categories["0"].tones["3"].score);
+      
+      console.log(`Emotion score: ${emotionScore}`)
+
       this.setState({
-        parsedText: res.data.score.document_tone.tone_categories["0"].tones,
+        parsedEmotion: res.data.score.document_tone.tone_categories["0"].tones["3"].tone_name,
+        parsedSentiment:res.data.score.document_tone.tone_categories["0"].tones,
+        parsedScore: this.percent(res.data.score.document_tone.tone_categories["0"].tones["3"].score),
       })
       console.log('the data that came back: ', res);
     }).then(() => {
@@ -92,7 +108,7 @@ class App extends Component {
       const review = {
         title: this.state.currentReview,
         user: this.state.user.displayName || this.state.user.email,
-        feels: this.state.parsedText,
+        feels: this.state.parsedSentiment,
       };
       reviewsRef.push(review);
       this.setState({
@@ -157,7 +173,9 @@ class App extends Component {
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
         updateReview={this.updateReview}
-        parsedText={this.state.parsedText}
+        parsedEmotion={this.state.parsedEmotion}
+        parsedScore={this.state.parsedScore}
+        parsedSentiment={this.state.parsedSentiment}
       />
     );
   }
