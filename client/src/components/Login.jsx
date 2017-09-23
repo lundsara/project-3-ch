@@ -35,6 +35,7 @@ class Login extends Component {
                     return (
                       <li id='box' key={review.id}>
                         <h3>{review.title}</h3>
+                        <h2>{this.props.parseText}</h2>
                         <div>Posted by: {review.user}
                         <br/>
                          {/* {review.user === this.props.user.displayName || review.user === this.state.user.email ?*/}
@@ -54,7 +55,7 @@ class Login extends Component {
                   <input type="text" name="currentReview" placeholder="Tell us what you thought?" onChange={this.props.handleChange} value={this.props.currentReview} />
                   <br/>
                   <button>Add Review</button>
-                  <button onClick={this.props.handleCall}>Feels</button>
+                  {/* <button onClick={this.props.handleCall}>Feels</button> */}
               </form>
             </section>
           </div>

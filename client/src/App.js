@@ -28,7 +28,7 @@ class App extends Component {
     // binding functions
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCall = this.handleCall.bind(this);
+    // this.handleCall = this.handleCall.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
   }
@@ -37,20 +37,20 @@ class App extends Component {
       [e.target.name]: e.target.value,
     });
   }
-  handleCall(event){
-    console.log(`handling call: ${this.state.currentReview}`);
-    event.preventDefault();
-    axios.post('http://localhost:3003/api/test',{
-      text: this.state.currentReview
-    })
-    .then((res) => {
-      this.setState({
-        parsedText: res.data.score.document_tone.tone_categories["0"].tones,
-      })
-      console.log('the data that came back: ', res);
-    })
-    .catch(err => console.log(err));
-  }
+  // handleCall(event){
+  //   console.log(`handling call: ${this.state.currentReview}`);
+  //   event.preventDefault();
+  //   axios.post('http://localhost:3003/api/test',{
+  //     text: this.state.currentReview
+  //   })
+  //   .then((res) => {
+  //     this.setState({
+  //       parsedText: res.data.score.document_tone.tone_categories["0"].tones,
+  //     })
+  //     console.log('the data that came back: ', res);
+  //   })
+  //   .catch(err => console.log(err));
+  // }
 
   // adding authentication for firebase
   login() {
@@ -82,6 +82,7 @@ class App extends Component {
       text: this.state.currentReview
     })
     .then((res) => {
+      console.log(res.data.score.document_tone.tone_categories["0"].tones)
       this.setState({
         parsedText: res.data.score.document_tone.tone_categories["0"].tones,
       })
@@ -97,7 +98,6 @@ class App extends Component {
       this.setState({
         currentReview: '',
         username: '',
-        parsedText: [],
       })
     }).catch(err => console.log(err));
   }
@@ -156,8 +156,8 @@ class App extends Component {
         removeReview={this.removeReview}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
-        handleCall={this.handleCall}
         updateReview={this.updateReview}
+        parsedText={this.state.parsedText}
       />
     );
   }
