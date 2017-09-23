@@ -54,7 +54,7 @@ class Login extends Component {
                   <input type="text" name="currentReview" placeholder="Tell us what you thought?" onChange={this.props.handleChange} value={this.props.currentReview} />
                   <br/>
                   <button>Add Review</button>
-                  <button onClick={this.props.handleCall} >Feels</button>
+                  <button onClick={this.props.handleCall}>Feels</button>
               </form>
             </section>
           </div>
