@@ -216,7 +216,6 @@ render() {
           <Route exact path="/login" render={(props) => this.loginComponent(props) } />
           <Route exact path="/add" render={(props) => this.addComponent(props) } />
          </Switch>
-         <p>This is our backend data <b>{this.state.message.score}</b></p>
         <Footer />
      </div>
     </div>

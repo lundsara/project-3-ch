@@ -60,11 +60,11 @@ console.log(`this is inside login: ${this.props.parsedSentiment}`)
                   <button>Add Review</button>
                   {/* <button onClick={this.props.handleCall}>Feels</button> */}
               </form>
-                <section className='feels-review'>
-                  <ul id='feels'>
+                <section id='feels-review'>
+                  <ul id='feels-list'>
                     {this.props.parsedSentiment.map((feel)=> {
                       return (
-                        <li>{`${feel.tone_name}: ${this.percent(feel.score)}`}</li>
+                        <li className='feel'>{`${feel.tone_name}: ${this.percent(feel.score)}`}</li>
                         
                       )
                     }
