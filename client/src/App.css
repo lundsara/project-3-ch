@@ -1,10 +1,13 @@
+
 .app {
   text-align: center;
   background: white;
+  font-family: 'Arsenal', sans-serif;
 }
 .login {
   text-align: center;
-  margin-top: 150px;
+  margin-top: 350px;
+  margin: 0 auto;
 }
 
 
@@ -22,14 +25,14 @@ ul{
 nav ul {
   display: flex;
   margin: 20px;
-   list-style-type: none;
+  list-style-type: none;
 }
 
 nav ul li {
-  padding: 15px;
+  padding: 5px;
   font-size: 1.3em;
   letter-spacing: 1px;
-   list-style-type: none;
+  list-style-type: none;
 }
 
 nav ul li a { list-style-type: none;
@@ -40,22 +43,29 @@ nav ul li a { list-style-type: none;
 
  nav ul li a:hover {
   font-weight: bold;
-  background-color: cornflowerblue;
+  color: steelblue;
 }
 button:hover {
   font-weight: bold;
-  background-color: cornflowerblue;
+  background-color: steelblue;
 }
+
+a:hover {
+  font-weight: bold;
+  color: steelblue;
+  }
 
 
 p{
   font-size: 40px;
 }
+
 .result{
   font-size: 20px;
 }
-input {
 
+textarea {
+ margin: 0 auto;
   width: 1000px;
   height: 300px;
   background-color: white;
@@ -63,6 +73,12 @@ input {
   margin-bottom: 20px;
   border: solid steelblue 4px;
   font-size: 18px;
+  font-family: 'Arsenal', sans-serif;
+}
+
+form {
+  display: block;
+  margin-left: -1280px;
 }
 
 .App-intro {
@@ -89,29 +105,29 @@ header {
 }
 
 a  {
-  align-items: right;
+  margin: auto;
   text-align: center;
-  background-color: steelblue;
   padding: 10px 30px;
-  font-size: 15px;
+  font-size: 25px;
   padding: 12px;
-  box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);
   border-radius: 5px;
   text-decoration: none;
   display: flex;
   flex-direction: row;
-  width: 60px;
+  width: 90px;
   position: relative;
   color: black;
-  margin-top: -85px;
+  margin-top: -125px;
   margin-right: 10px;
 
 }
 button  {
-
-  background-color: steelblue;
+  margin: auto;
+  font-family: 'Arsenal', sans-serif;
+  border-radius: 5px;
+  background-color: cornflowerblue;
   padding: 10px 30px;
-  font-size: 15px;
+  font-size: 18px;
   padding: 12px;
   box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);
   border-radius: 5px;
@@ -119,31 +135,30 @@ button  {
   width: 150px;
   height: 50px;
   border: solid white;
+  text-align: center;
 
 }
 
 
 #review {
-display: flex;
-position: absolute;
+
 margin: 0 auto;
-flex-direction: column;
-justify-content: center;
+text-align: center;
 margin-bottom: 80px;
-margin-top: 500px;
+margin-top: 400px;
 text-align: center;
 list-style: none;
 }
 
 
+  .userinfo {
+   position: absolute;
+   top: 200px;
+   right: 40px;
+   width: 50px;
+   height: 50px;
+ }
 
-img {
-  position: fixed;
-  bottom: 20px;
-  right: 40px;
-  width: 50px;
-  height: 50px;
-}
 
 
 #box {
@@ -152,7 +167,7 @@ img {
   margin: 0 auto;
   margin-top: 30px;
   width: 1000px;
-  height: 150px;
+  height: 250px;
   flex-direction: column;
   justify-content: center;
   text-align: center;
@@ -160,6 +175,7 @@ img {
   margin-left: 250px;
   background-color: white;
   border: solid steelblue 4px;
+  font-size: 20px;
 
 }
 
@@ -176,19 +192,20 @@ footer {
 }
 
 .wrapper {
-  margin-top: 80px;
+  margin-top: 220px;
+  margin-bottom: 80px;
 }
 
 #title{
   margin-top: -10px;
-  font-size: 40px;
+  font-size: 60px;
 }
 #user {
   height: 50px;
 }
 
 #single {
-  margin-top: -350px;
+  margin-top: -200px;
 }
 
 #enter {
@@ -196,15 +213,23 @@ footer {
   margin: 0 auto;
   width: 200px;
   margin-top: 160px;
-  margin-left: 750px;
+}
+
+#welcome {
+  text-align: center;
+  margin: 0 auto;
 }
 #logo {
   font-size: 16px;
 }
 #home{
-  margin-top: 300px;
-  overflow-y: auto
+  margin-top: 200px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 200px;
+
 }
+
 body{
 display: block;
 height: 3000px;
@@ -220,4 +245,19 @@ z-index: 500;
 #foot {
   padding:200px;
 }
+
+.container {
+  display: flex;
+  position: absolute;
+}
+.update-review {
+  margin: 0 auto;
+  margin-right: -1280px;
+  margin-top: 250px;
+}
+.display-review{
+  display: inline;
+}
+
+
 

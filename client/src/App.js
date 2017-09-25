@@ -2,16 +2,16 @@
 import React, { Component } from 'react';
 import './App.css';
 import firebase, { auth, provider } from './firebase';
-import ReviewSearch from './components/ReviewSearch';
 import Header from './components/partials/header';
 import Footer from './components/partials/footer';
 import Nav from './components/partials/nav';
 import Home from './components/Home';
 import Login from './components/Login';
 import Reviews from './components/Reviews';
+import Update from './components/Update';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Redirect, Switch } from 'react-router-dom';
-//import axios from 'axios';
+import axios from 'axios';
 
 
 class App extends Component {
@@ -27,7 +27,8 @@ class App extends Component {
     // binding functions
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleCall = this.handleCall.bind(this);
+    this.updateReview = this.updateReview.bind(this);
+    this.handleCall = this.handleCall.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
   }
@@ -36,17 +37,17 @@ class App extends Component {
       [e.target.name]: e.target.value,
     });
   }
-  // handleCall(event){
-  //   console.log(`handling call: ${this.state.currentReview}`);
-  //   event.preventDefault();
-  //   axios.post('http://localhost:3003/api/test',{
-  //     text: this.state.currentReview
-  //   })
-  //   .then((res) => {
-  //     console.log('the data that came back: ', res);
-  //   })
-  //   .catch(err => console.log(err));
-  // }
+  handleCall(event){
+    console.log(`handling call: ${this.state.currentReview}`);
+    event.preventDefault();
+    axios.post('http://localhost:3003/api/test',{
+      text: this.state.currentReview
+    })
+    .then((res) => {
+      console.log('the data that came back: ', res);
+    })
+    .catch(err => console.log(err));
+  }
 
   // adding authentication for firebase
   login() {
@@ -120,10 +121,22 @@ class App extends Component {
     const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
     reviewRef.remove();
   }
-   updateReview(reviewId) {
-    const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
-    reviewRef.update();
+
+  updateReview(reviewId, e) {
+    e.preventDefault();
+    const reviewsRef = firebase.database().ref(`/reviews/${reviewId}`);
+    console.log(reviewsRef);
+    console.log(reviewId);
+    const newReview = {
+      title: 'new title',
+    };
+    reviewsRef.set(newReview);
+    this.setState({
+      currentReview: '',
+      username: '',
+    });
   }
+
 
   loginComponent(props) {
     return (
@@ -136,7 +149,7 @@ class App extends Component {
         removeReview={this.removeReview}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
-        // handleCall={this.handleCall}
+        handleCall={this.handleCall}
         updateReview={this.updateReview}
       />
     );
@@ -147,20 +160,24 @@ class App extends Component {
         {...props}
         user={this.state.user}
         reviews={this.state.reviews}
-        handleSubmit={this.handleSubmit}
-        handleChange={this.handleChange}
+
       />
     );
   }
-   addComponent = (props) => {
+
+   updateComponent = (props) => {
     return (
-      <Reviews
+      <Update
         {...props}
         user={this.state.user}
+        login={this.login}
         reviews={this.state.reviews}
+        logout={this.logout}
         removeReview={this.removeReview}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
+        handleCall={this.handleCall}
+        updateReview={this.updateReview}
       />
     );
   }
@@ -168,17 +185,15 @@ class App extends Component {
 render() {
   return (
     <div className='app'>
-
-
      <div>
        <Header />
          <Switch>
           <Route exact path="/home" component={Home} />
           <Route exact path="/reviews" render={(props) => this.reviewsComponent(props) } />
           <Route exact path="/login" render={(props) => this.loginComponent(props) } />
-          <Route exact path="/add" render={(props) => this.addComponent(props) } />
+          <Route exact path="/update" render={(props) => this.updateComponent(props) } />
          </Switch>
-         <p>This is our backend data <b>{this.state.message.score}</b></p>
+
         <Footer />
      </div>
     </div>
