@@ -33,25 +33,8 @@ var options = {
     }
 };
 
-app.get('/api/test', function(req,res) {
+// app.get('/api/test', function(req,res) {
 
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            res.json({score: JSON.parse(body)});
-            console.log(JSON.parse(body))
-        }
-    }
-    request(options, callback);
-})
-
-app.post('/api/test', function(req,res) {
-    console.log(`this is the post inside server${req.body.text}`)
-    text = req.body.text
-    console.log(`this is the text inside post ${text}`)
-
-
-
-//     app.get('/api/test', function(req,res) {
 //     function callback(error, response, body) {
 //         if (!error && response.statusCode == 200) {
 //             res.json({score: JSON.parse(body)});
@@ -60,20 +43,27 @@ app.post('/api/test', function(req,res) {
 //     }
 //     request(options, callback);
 // })
+
+app.post('/api/test', function(req,res) {
+    console.log(`this is the post inside server${req.body.text}`)
+    text = req.body.text
+    options.url = `https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&tones=emotion&text=${text}`
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.json({score: JSON.parse(body)});
+            console.log(JSON.parse(body))
+        }
+    }
+    request(options, callback);
+
 })
+
 app.get('*', function(req, res) {
     res.status(404).send({message: 'Oops! Not found'});
 });
 
-
-// var request = require('request');
-// app.get('/', function(req, res) {
-//     request('https://www.eventbriteapi.com/v3/events/?token=${EB}', function(error, response, body) {
-//         res.json(body)
-//     });
-// });
-
 // Setting up port & listen
+
 
 const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {

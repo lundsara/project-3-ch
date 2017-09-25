@@ -4,9 +4,14 @@ import axios from 'axios'
 
 class Login extends Component {
 
-
+  percent(num) {
+  return `${Math.round(num * 100)} %`;
+}
 
   render() {
+
+console.log(`this is inside login: ${this.props.parsedSentiment}`)
+
     return (
   <div className='login'>
         <div className="wrapper">
@@ -31,7 +36,6 @@ class Login extends Component {
               <ul id="review">
                 {/* map over all reviews and display on page */}
                    {this.props.reviews.map((review) => {
-                     console.log(`this is ${this.props.reviews}`)
                     return (
                       <li id='box' key={review.id}>
                         <h3>{review.title}</h3>
@@ -54,8 +58,19 @@ class Login extends Component {
                   <input type="text" name="currentReview" placeholder="Tell us what you thought?" onChange={this.props.handleChange} value={this.props.currentReview} />
                   <br/>
                   <button>Add Review</button>
-                  <button onClick={this.props.handleCall} >Feels</button>
+                  {/* <button onClick={this.props.handleCall}>Feels</button> */}
               </form>
+                <section id='feels-review'>
+                  <ul id='feels-list'>
+                    {this.props.parsedSentiment.map((feel)=> {
+                      return (
+                        <li className='feel'>{`${feel.tone_name}: ${this.percent(feel.score)}`}</li>
+                        
+                      )
+                    }
+                    )}
+                    </ul>
+                  </section>
             </section>
           </div>
         </div>

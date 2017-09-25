@@ -11,7 +11,7 @@ import Login from './components/Login';
 import Reviews from './components/Reviews';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Redirect, Switch } from 'react-router-dom';
-//import axios from 'axios';
+import axios from 'axios';
 
 
 class App extends Component {
@@ -23,6 +23,9 @@ class App extends Component {
       reviews: [],
       user: null,
       message: '',
+      parsedEmotion: '',
+      parsedScore: null,
+      parsedSentiment: [],
     };
     // binding functions
     this.handleChange = this.handleChange.bind(this);
@@ -43,6 +46,9 @@ class App extends Component {
   //     text: this.state.currentReview
   //   })
   //   .then((res) => {
+  //     this.setState({
+  //       parsedEmotion: res.data.score.document_tone.tone_categories["0"].tones,
+  //     })
   //     console.log('the data that came back: ', res);
   //   })
   //   .catch(err => console.log(err));
@@ -68,30 +74,60 @@ class App extends Component {
       });
 }
 
+percent(num) {
+  return Math.round(num * 100);
+}
+
 
   handleSubmit(e) {
     e.preventDefault();
-    const reviewsRef = firebase.database().ref('reviews');
-    const review = {
-      title: this.state.currentReview,
-      user: this.state.user.displayName || this.state.user.email,
-    };
-    reviewsRef.push(review);
-    this.setState({
-      currentReview: '',
-      username: '',
-    });
+
+    console.log(`handling call: ${this.state.currentReview}`);
+    e.preventDefault();
+    axios.post('http://localhost:3003/api/test',{
+      text: this.state.currentReview
+    })
+    .then((res) => {
+      // console.log(`this is the emotion name ${res.data.score.document_tone.tone_categories["0"].tones["3"].tone_name}`)
+      // console.log(`this is the emotion score ${res.data.score.document_tone.tone_categories["0"].tones["3"].score}`)
+      console.log(res.data.score.document_tone.tone_categories["0"].tones)
+      // console.log(this.percent(res.data.score.document_tone.tone_categories["0"].tones["3"].score))
+
+      let emotionScore = this.percent(res.data.score.document_tone.tone_categories["0"].tones["3"].score);
+      
+      console.log(`Emotion score: ${emotionScore}`)
+
+      this.setState({
+        parsedEmotion: res.data.score.document_tone.tone_categories["0"].tones["3"].tone_name,
+        parsedSentiment:res.data.score.document_tone.tone_categories["0"].tones,
+        parsedScore: this.percent(res.data.score.document_tone.tone_categories["0"].tones["3"].score),
+      })
+      console.log('the data that came back: ', res);
+    }).then(() => {
+      const reviewsRef = firebase.database().ref('reviews');
+      const review = {
+        title: this.state.currentReview,
+        user: this.state.user.displayName || this.state.user.email,
+        feels: this.state.parsedSentiment,
+      };
+      reviewsRef.push(review);
+      this.setState({
+        currentReview: '',
+        username: '',
+      })
+    }).catch(err => console.log(err));
   }
+
   componentDidMount() {
     // INITIAL API REQUEST
-    fetch('/api/test')
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        this.setState({
-          message: res.score.document_tone.tone_categories['0'].tones['0'],
-        });
-      });
+    // fetch('/api/test')
+    //   .then((response) => response.json())
+    //   .then((res) => {
+    //     console.log(res);
+    //     this.setState({
+    //       message: res.score.document_tone.tone_categories['0'].tones['0'],
+    //     });
+    //   });
     // User Auth
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -136,8 +172,10 @@ class App extends Component {
         removeReview={this.removeReview}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
-        // handleCall={this.handleCall}
         updateReview={this.updateReview}
+        parsedEmotion={this.state.parsedEmotion}
+        parsedScore={this.state.parsedScore}
+        parsedSentiment={this.state.parsedSentiment}
       />
     );
   }
@@ -178,7 +216,6 @@ render() {
           <Route exact path="/login" render={(props) => this.loginComponent(props) } />
           <Route exact path="/add" render={(props) => this.addComponent(props) } />
          </Switch>
-         <p>This is our backend data <b>{this.state.message.score}</b></p>
         <Footer />
      </div>
     </div>
