@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import firebase, { auth, provider } from '../firebase';
-import axios from 'axios'
+
+import Feels from './Feels';
+import ReviewList from './ReviewList';
+import Add from './Add';
+
 
 class Login extends Component {
+  constructor(props){
+    super(props);
+    console.log(this.props)
+  }
 
-  percent(num) {
-  return `${Math.round(num * 100)} %`;
-}
 
   render() {
-
-console.log(`this is inside login: ${this.props.parsedSentiment}`)
-
     return (
-  <div className='login'>
+      <div className="login">
         <div className="wrapper">
           <h2>Your Account</h2>
           {/* adding ternary operator for login logout */}
@@ -23,65 +24,36 @@ console.log(`this is inside login: ${this.props.parsedSentiment}`)
             <button onClick={this.props.login}>Log In</button>
           }
         </div>
-      {this.props.user ?
-         <div>
-
-              {/* show user's photo */}
-              <img  className='userinfo' src={this.props.user.photoURL} />
-
-         <div className='container'>
-           <section className='display-review'>
-            <div className="wrapper">
-
-              <ul id="review">
-                {/* map over all reviews and display on page */}
-                   {this.props.reviews.map((review) => {
-                    return (
-                      <li id='box' key={review.id}>
-                        <h3>{review.title}</h3>
-                        <div>Posted by: {review.user}
-                        <br/>
-                         {/* {review.user === this.props.user.displayName || review.user === this.state.user.email ?*/}
-                          <button onClick={() => this.props.removeReview(review.id)}>Remove Review</button>
-                          <button onClick={() => this.props.updateReview(review.id)}>Update Review</button>
-                      </div>
-                     </li>
-                   )
-                 })}
-              </ul>
+        {this.props.user ?
+          <div>
+            {/* show user's photo */}
+            <img className="userinfo" src={this.props.user.photoURL} />
+            <div className="container">
+              <section className="display-review">
+                <div className="wrapper">
+                  <ReviewList
+                  getReviewToUpdate={this.props.getReviewToUpdate}
+                  reviews={this.props.reviews}
+                  />
+                </div>
+              </section>
+              {/* form to add new review */}
+              <Add
+                handleSubmit={this.props.handleSubmit}
+                user={this.props.user}
+                handleChange={this.props.handleChange}
+                />
             </div>
-          </section>
-          {/* form to add new review */}
-            <section className='add-review'>
-               <form onSubmit={this.props.handleSubmit}>
-                  <input id='user'type="text" name="username" placeholder="What's your name?" value= {this.props.user.displayName || this.props.user.email} />
-                  <input type="text" name="currentReview" placeholder="Tell us what you thought?" onChange={this.props.handleChange} value={this.props.currentReview} />
-                  <br/>
-                  <button>Add Review</button>
-                  {/* <button onClick={this.props.handleCall}>Feels</button> */}
-              </form>
-                <section id='feels-review'>
-                  <ul id='feels-list'>
-                    {this.props.parsedSentiment.map((feel)=> {
-                      return (
-                        <li className='feel'>{`${feel.tone_name}: ${this.percent(feel.score)}`}</li>
-                        
-                      )
-                    }
-                    )}
-                    </ul>
-                  </section>
-            </section>
           </div>
-        </div>
-        :
-        <div className='wrapper'>
+          :
+          <div className="wrapper">
             <p>You must be logged in to see the reviews list and submit to it.</p>
-        </div>
+          </div>
         }
       </div>
     );
   }
 }
+export default Login;
 
-  export default Login;
+

@@ -7,7 +7,7 @@ class Nav extends Component {
         <ul>
           <li>Home</li>
           <li>Reviews</li>
-          <li>Login</li>
+          <li>Account</li>
         </ul>
       </nav>
     );
