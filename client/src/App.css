@@ -79,7 +79,7 @@ textarea {
 
 form {
   display: block;
-
+  margin-left: -1280px;
 }
 
 .App-intro {
@@ -161,8 +161,6 @@ list-style: none;
  }
 
 
-
-
 #box {
   display: flex;
   position: relative;
@@ -178,9 +176,6 @@ list-style: none;
   background-color: white;
   border: solid steelblue 4px;
   font-size: 20px;
-
-
-
 }
 
 #feels-review {
@@ -224,6 +219,7 @@ footer {
   margin: 0 auto;
   width: 200px;
   margin-top: 160px;
+
 }
 
 #welcome {
@@ -274,6 +270,7 @@ z-index: 500;
 h3 {
   text-align: left;
   padding: 25px;
+  margin-top: -130px;
 }
 
 .link {
@@ -293,6 +290,9 @@ h3 {
   text-align: center;
   text-align: center;
 
+}
+.person {
+  font-size: 20px;
 }
 
 
