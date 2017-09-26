@@ -13,10 +13,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import axios from 'axios';
 
-
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    console.log(this.props)
+
     this.state = {
       currentReview: '',
       username: '',
@@ -26,21 +28,26 @@ class App extends Component {
       parsedEmotion: '',
       parsedScore: null,
       parsedSentiment: [],
+      reviewToUpdate: {},
+      reviewToUpdateID: ''
     };
     // binding functions
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateReview = this.updateReview.bind(this);
     this.handleCall = this.handleCall.bind(this);
+    this.percent = this.percent.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+    this.getReviewToUpdate = this.getReviewToUpdate.bind(this);
+
   }
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
-<<<<<<< HEAD
+
   handleCall(event){
     console.log(`handling call: ${this.state.currentReview}`);
     event.preventDefault();
@@ -52,22 +59,7 @@ class App extends Component {
     })
     .catch(err => console.log(err));
   }
-=======
-  // handleCall(event){
-  //   console.log(`handling call: ${this.state.currentReview}`);
-  //   event.preventDefault();
-  //   axios.post('http://localhost:3003/api/test',{
-  //     text: this.state.currentReview
-  //   })
-  //   .then((res) => {
-  //     this.setState({
-  //       parsedEmotion: res.data.score.document_tone.tone_categories["0"].tones,
-  //     })
-  //     console.log('the data that came back: ', res);
-  //   })
-  //   .catch(err => console.log(err));
-  // }
->>>>>>> dev
+
 
   // adding authentication for firebase
   login() {
@@ -103,14 +95,8 @@ percent(num) {
       text: this.state.currentReview
     })
     .then((res) => {
-      // console.log(`this is the emotion name ${res.data.score.document_tone.tone_categories["0"].tones["3"].tone_name}`)
-      // console.log(`this is the emotion score ${res.data.score.document_tone.tone_categories["0"].tones["3"].score}`)
-      console.log(res.data.score.document_tone.tone_categories["0"].tones)
-      // console.log(this.percent(res.data.score.document_tone.tone_categories["0"].tones["3"].score))
 
       let emotionScore = this.percent(res.data.score.document_tone.tone_categories["0"].tones["3"].score);
-      
-      console.log(`Emotion score: ${emotionScore}`)
 
       this.setState({
         parsedEmotion: res.data.score.document_tone.tone_categories["0"].tones["3"].tone_name,
@@ -134,57 +120,81 @@ percent(num) {
   }
 
   componentDidMount() {
-    // INITIAL API REQUEST
-    // fetch('/api/test')
-    //   .then((response) => response.json())
-    //   .then((res) => {
-    //     console.log(res);
-    //     this.setState({
-    //       message: res.score.document_tone.tone_categories['0'].tones['0'],
-    //     });
-    //   });
-    // User Auth
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user });
       }
     });
-    // Display reviews
+    // Display reviews + feels
     const reviewsRef = firebase.database().ref('reviews');
     reviewsRef.on('value', (snapshot) => {
+      console.log(snapshot.val())
       const reviews = snapshot.val();
-      const newState = [];
-      for (const review in reviews) {
-        newState.push({
-          id: review,
-          title: reviews[review].title,
-          user: reviews[review].user,
-        });
-      }
+      const newState = Object.keys(reviews).map((key) => {
+        const review = {
+          ...reviews[key],
+          id: key,
+        };
+        return review;
+      })
       this.setState({
         reviews: newState,
+
       });
     });
   }
+
 
   removeReview(reviewId) {
     const reviewRef = firebase.database().ref(`/reviews/${reviewId}`);
     reviewRef.remove();
   }
 
-  updateReview(reviewId, e) {
-    e.preventDefault();
-    const reviewsRef = firebase.database().ref(`/reviews/${reviewId}`);
-    console.log(reviewsRef);
-    console.log(reviewId);
-    const newReview = {
-      title: 'new title',
-    };
-    reviewsRef.set(newReview);
-    this.setState({
-      currentReview: '',
-      username: '',
+  getReviewToUpdate(id){
+    const reviewRef = firebase.database().ref(`/reviews/${id}`)
+    .once('value')
+    .then(snapshot=> {
+      const review = snapshot.val().title;
+      console.log(review);
+      this.setState({
+        reviewToUpdate: review,
+        reviewToUpdateID: id
+      })
     });
+
+  }
+
+  updateReview(e) {
+    e.preventDefault();
+
+    axios.post('http://localhost:3003/api/test',{
+      text: this.state.currentReview
+    })
+    .then((res) => {
+
+      let emotionScore = this.percent(res.data.score.document_tone.tone_categories["0"].tones["3"].score);
+
+      this.setState({
+        parsedEmotion: res.data.score.document_tone.tone_categories["0"].tones["3"].tone_name,
+        parsedSentiment: res.data.score.document_tone.tone_categories["0"].tones,
+        parsedScore: this.percent(res.data.score.document_tone.tone_categories["0"].tones["3"].score),
+      })
+      console.log('the data that came back: ', res);
+    })
+    .then(() => {
+      const reviewsRef = firebase.database().ref(`/reviews/${this.state.reviewToUpdateID}`);
+      const newReview = {
+        title: this.state.currentReview,
+        user: this.state.user.displayName || this.state.user.email,
+        feels: this.state.parsedSentiment
+      };
+      reviewsRef.set(newReview);
+      this.setState({
+        currentReview: '',
+        username: '',
+      });
+    })
+    .catch(err => console.error(err));
   }
 
 
@@ -199,14 +209,13 @@ percent(num) {
         removeReview={this.removeReview}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
-<<<<<<< HEAD
         handleCall={this.handleCall}
-=======
->>>>>>> dev
         updateReview={this.updateReview}
         parsedEmotion={this.state.parsedEmotion}
         parsedScore={this.state.parsedScore}
         parsedSentiment={this.state.parsedSentiment}
+        percent={this.state.percent}
+        getReviewToUpdate={this.getReviewToUpdate}
       />
     );
   }
@@ -216,7 +225,6 @@ percent(num) {
         {...props}
         user={this.state.user}
         reviews={this.state.reviews}
-
       />
     );
   }
@@ -234,13 +242,19 @@ percent(num) {
         handleChange={this.handleChange}
         handleCall={this.handleCall}
         updateReview={this.updateReview}
+        parsedEmotion={this.state.parsedEmotion}
+        parsedScore={this.state.parsedScore}
+        parsedSentiment={this.state.parsedSentiment}
+        reviewToUpdate={this.state.reviewToUpdate}
       />
     );
   }
 
 render() {
+
   return (
     <div className='app'>
+    <Router>
      <div>
        <Header />
          <Switch>
@@ -249,14 +263,10 @@ render() {
           <Route exact path="/login" render={(props) => this.loginComponent(props) } />
           <Route exact path="/update" render={(props) => this.updateComponent(props) } />
          </Switch>
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
         <Footer />
      </div>
-    </div>
-
+    </Router>
+  </div>
     );
   }
 
