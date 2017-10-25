@@ -50,7 +50,7 @@ class App extends Component {
   handleCall(event){
     console.log(`handling call: ${this.state.currentReview}`);
     event.preventDefault();
-    axios.post('http://localhost:3003/api/test',{
+    axios.post('/api/test',{
       text: this.state.currentReview
     })
     .then((res) => {
@@ -90,7 +90,7 @@ percent(num) {
 
     console.log(`handling call: ${this.state.currentReview}`);
     e.preventDefault();
-    axios.post('http://localhost:3003/api/test',{
+    axios.post('/api/test',{
       text: this.state.currentReview
     })
     .then((res) => {
@@ -166,7 +166,7 @@ percent(num) {
   updateReview(e) {
     e.preventDefault();
 
-    axios.post('http://localhost:3003/api/test',{
+    axios.post('/api/test',{
       text: this.state.currentReview
     })
     .then((res) => {
