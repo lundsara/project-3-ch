@@ -21,7 +21,7 @@ const watsonu = process.env.WATU;
 const watsonp = process.env.WATP;
 console.log('dotenv: ' + watsonp);
 
-app.use(express.static(`${__dirname}/client/build`));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 var text;
 
@@ -58,9 +58,10 @@ app.post('/api/test', function(req,res) {
 
 })
 
-app.get('*', function(req, res) {
-    res.status(404).send({message: 'Oops! Not found'});
-});
+
+app.get('/*', function (req, res) {
+   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+ });
 
 // Setting up port & listen
 
