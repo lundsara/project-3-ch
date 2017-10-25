@@ -23,6 +23,7 @@
   "dependencies": {
     "ajax-request": "^1.2.3",
     "axios": "^0.16.2",
+    "watson-developer-cloud": "^2.39.0",
     "dotenv": "^4.0.0",
     "body-parser": "^1.18.1",
     "cors": "^2.8.4",
@@ -40,7 +41,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.3.0",
-    "nodemon": "^1.12.1",
-    "watson-developer-cloud": "^2.39.0"
+    "nodemon": "^1.12.1"
+
   }
 }
