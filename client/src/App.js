@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase, { auth, provider } from './firebase';
 import Header from './components/partials/header';
-import Footer from './components/partials/footer';
 import Nav from './components/partials/nav';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -263,7 +262,7 @@ render() {
           <Route exact path="/login" render={(props) => this.loginComponent(props) } />
           <Route exact path="/update" render={(props) => this.updateComponent(props) } />
          </Switch>
-        <Footer />
+
      </div>
     </Router>
   </div>

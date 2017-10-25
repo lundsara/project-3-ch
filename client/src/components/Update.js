@@ -7,7 +7,7 @@ class Update extends Component {
         <form onSubmit={this.props.updateReview}>
           <textarea type="text" name="currentReview" placeholder="Tell us what you thought?" onChange={this.props.handleChange} value={this.props.currentReview} />
           <br/>
-          <button type="submit">Update Review</button>
+          <button type="submit">Update Entry</button>
         </form>
       </section>
 

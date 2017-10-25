@@ -9,9 +9,7 @@ const Review = props => (
       {/* If i've been composed with a child, render */}
       {props.children}
       {/* {props.review.user === this.props.user.displayName || props.review.user === this.state.user.email ? */}
-      <Link className="link"
-        to="/update"
-        onClick={() => props.getReviewToUpdate(props.review.id)}>Update Review</Link>
+
 
     </div>
   </li>
