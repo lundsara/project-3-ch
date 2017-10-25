@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const ebritek = process.env.EB;
 const watsonu = process.env.WATU;
 const watsonp = process.env.WATP;
-console.log('dotenv: ' + watsonp);
+//console.log('dotenv: ' + watsonp);
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
