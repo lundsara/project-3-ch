@@ -110,9 +110,8 @@ percent(num) {
         user: this.state.user.displayName || this.state.user.email,
         feels: this.state.parsedSentiment,
       };
-      console.log(document.getElementById("currentReview"));
 
-      reviewsRef.push(review);
+     reviewsRef.push(review);
       this.setState({
         currentReview: '',
         username: '',
