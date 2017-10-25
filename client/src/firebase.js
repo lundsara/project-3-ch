@@ -2,7 +2,7 @@ import firebase from 'firebase'
 
 const config = {
     apiKey: "AIzaSyBPMjiE40joBYoT0daQqZs9QjWkyW1b1cQ",
-    authDomain: "greatideasinc-1e532.firebaseapp.com",
+    authDomain: "https://mood-diary-scl.herokuapp.com",
     databaseURL: "https://greatideasinc-1e532.firebaseio.com",
     projectId: "greatideasinc-1e532",
     storageBucket: "greatideasinc-1e532.appspot.com",
