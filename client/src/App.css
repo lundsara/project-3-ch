@@ -31,7 +31,7 @@ nav ul {
 
 nav ul li {
   padding: 5px;
-  font-size: 1.3em;
+
   letter-spacing: 1px;
   list-style-type: none;
 }
@@ -111,7 +111,7 @@ a  {
   margin: auto;
   text-align: center;
   padding: 10px 30px;
-  font-size: 25px;
+  font-size: 20px;
   padding: 12px;
   border-radius: 5px;
   text-decoration: none;
@@ -230,7 +230,10 @@ footer {
 
 #welcome {
   text-align: center;
-  margin: 0 auto;
+  float: right;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-right: 300px;
 }
 #logo {
   font-size: 16px;
@@ -305,6 +308,17 @@ h3 {
 
 .feel{
   font-size: 20px;
+}
+
+aside{
+  float: left;
+  margin-left: 200px;
+
+}
+
+img{
+  width: 250px;
+  height: 300px;
 }
 
 
