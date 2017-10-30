@@ -47,7 +47,7 @@ class Login extends Component {
           </div>
           :
           <div className="wrapper">
-            <p>You must be logged in to see the reviews list and submit to it.</p>
+            <p>You must be logged in to see the reviews list <br/> and submit to it.</p>
           </div>
         }
       </div>
